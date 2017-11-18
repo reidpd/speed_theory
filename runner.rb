@@ -15,8 +15,7 @@ class Runner
       when 'i'
         instructions
       when 'h'
-        # legend
-        break
+        legend
       when 's'
         start_game
       when 'p'
@@ -27,7 +26,7 @@ class Runner
 
   def intro
     puts "Welcome to Speed_Theory! \n\n"
-    puts "s: start, p: print answer guide, h: Display Legend, i: instructions, q: quit"
+    puts "s: start, h: Display Legend, i: instructions, q: quit"
   end
 
   def instructions
@@ -36,7 +35,16 @@ class Runner
     puts "\n{interval} {direction} {query_note}?"
     puts "AKA: Major 3rd ABOVE C? (answer: E), Minor 7th BELOW C#? (answer: D#), Perfect 4th above Db? (answer: Gb)"
     puts "\nNotes:\n\nAll input is taken to lowercase format\nEvery correct answer adds 1 to your streak\nWhen you finish, a list of all correct answers will be printed"
+    puts "Type 'h' to find out what kinds of input are accepted."
     puts "Good Luck!!"
+  end
+
+  def legend
+    puts "To respond to each question, type a single string of lowercase letters in which: "
+    puts "1) The first letter is the note you think is right (a, b, c, etc)"
+    puts "2) The second letter is the accidental you think is right: 'n' for natural, 'w' for flat, and 's' for sharp."
+    puts "If no second letter is provided, the algorithm will assume you mean 'natural'."
+    puts "All other input will result in an incorrect answer."
   end
 
   def start_game
@@ -45,10 +53,10 @@ class Runner
       theory.print_instance
       input = gets.chomp.downcase
       if input == "q"
+        intro
         break
       end
-      truth = theory.determine_user_accuracy(input)
-      if truth
+      if theory.determine_user_accuracy(input)
         @results << theory.record_accurate_guess
       else
         puts "SHUCKS! That was an incorrect answer."
