@@ -1,5 +1,5 @@
 class Theory
-  attr_reader :interval_query, :direction, :query_note
+  attr_reader :interval_query, :direction, :query_note, :correct_answers
 
   def initialize
     @all_intervals = ["U", "m2", "M2", "m3", "M3", "P4", "TT", "P5", "m6", "M6", "m7", "M7", "P8"] #later, add ["+4", "TT", "d5"] for greater skill level w/ TTs
@@ -28,6 +28,7 @@ class Theory
     @interval_query_idx = rand(@all_intervals.length)
     @interval_query = @all_intervals[@interval_query_idx]
     @direction = above_or_below
+    @correct_answers = translate(@interval_query, @direction, @note_conversion)
   end
 
   def print_instance
@@ -37,7 +38,7 @@ class Theory
   def determine_user_accuracy guess
     return false if guess.length > 2 || guess.length == 0
     guess += "n" if guess.length == 1
-    return translate(@interval_query, @direction, @note_conversion).include?(guess)
+    return @correct_answers.include?(guess)
   end
 
   def translate interval, direction, base_note

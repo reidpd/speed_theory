@@ -60,17 +60,14 @@ class Runner
         @results << theory.record_accurate_guess
       else
         puts "SHUCKS! That was an incorrect answer."
+        puts "You did not enter either of these correct answers: "
+        puts theory.correct_answers
         puts "Your streak was #{@results.length} guesses long!"
         puts "Here are your answers:\n"
         print_answers @results
         @results = []
       end
     end
-  end
-
-  def print_answer_guide
-    theory_copy = Theory.new
-    p theory_copy.generate_answer_guide
   end
 
   def print_answers results
