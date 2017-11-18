@@ -2,7 +2,7 @@ class Theory
   attr_reader :interval_query, :direction, :query_note, :correct_answers
 
   def initialize
-    @all_intervals = ["U", "m2", "M2", "m3", "M3", "P4", "TT", "P5", "m6", "M6", "m7", "M7", "P8"] #later, add ["+4", "TT", "d5"] for greater skill level w/ TTs
+    @all_intervals = ["U", "m2", "M2", "m3", "M3", "P4", "TT", "P5", "m6", "M6", "m7", "M7", "P8", "m9", "M9", "m10", "M10", "P11", "TT", "P12", "m13", "M13", "m14", "M14"] #later, add ["+4", "TT", "d5"] for greater skill level w/ TTs
     @potential_answers = [
       ["an"], ["as", "bw"],
       ["bn", "cw"], ["bs", "cn"],
@@ -27,7 +27,7 @@ class Theory
 
     @interval_query_idx = rand(@all_intervals.length)
     @interval_query = @all_intervals[@interval_query_idx]
-    @direction = above_or_below
+    @direction = (rand >= 0.5) ? "above" : "below"
     @correct_answers = translate(@interval_query, @direction, @note_conversion)
   end
 
@@ -51,16 +51,12 @@ class Theory
 
   def spin_tone_wheel array, search_item
     break_counter = 0
-    until break_counter == 13 || array.first.include?(search_item)
+    until array.first.include?(search_item) || break_counter == 13
       array = array.rotate
       break_counter += 1
     end
-    array.push(array.first)
+    array.length.times { |i| array.push(array[i]) }
     { "array" => array, "spin_count" => break_counter }
-  end
-
-  def above_or_below
-    (rand >= 0.5) ? "above" : "below"
   end
 
   def record_accurate_guess
